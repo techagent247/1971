@@ -1,5 +1,5 @@
 import { openingHours } from "@/lib/restaurant";
-import type { ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 export function PageHero({ eyebrow, title, children, image }: { eyebrow: string; title: string; children?: ReactNode; image?: string }) {
   return (
@@ -33,7 +33,8 @@ export function SectionTitle({ eyebrow, title, children, center }: { eyebrow: st
 }
 
 export function HoursTable() {
-  const today = typeof window === "undefined" ? -1 : new Date().getDay();
+  const [today, setToday] = useState(-1);
+  useEffect(() => setToday(new Date().getDay()), []);
   return (
     <ul className="divide-y divide-border">
       {openingHours.map((h, i) => (
