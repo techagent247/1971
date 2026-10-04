@@ -16,7 +16,7 @@ export function Footer() {
           <p className="mt-6 text-sm text-ink-foreground/60">A taste of Bangladesh. A story of 1971.</p>
           {socials.length > 0 && (
             <div className="mt-6 flex gap-4">
-              {socials.map(([k, url]) => { const I = icons[k]; return <a key={k} href={url} aria-label={k} className="text-gold hover:text-ink-foreground"><I size={18} /></a>; })}
+              {socials.map(([k, url]) => { const I = icons[k]; if (!I) return null; return <a key={k} href={url} aria-label={k} className="text-gold hover:text-ink-foreground"><I size={18} /></a>; })}
             </div>
           )}
         </div>
