@@ -34,9 +34,9 @@ function Contact() {
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const f = Object.fromEntries(new FormData(e.currentTarget)) as Record<string, string>;
-    if (f.website || Date.now() - loadedAt < 2500) return; // spam protection
+    if (f['website'] || Date.now() - loadedAt < 2500) return; // spam protection
     const r = schema.safeParse(f);
-    if (!r.success) return setErr(r.error.issues[0].message);
+    if (!r.success) return setErr(r.error.issues[0]?.message ?? "Please check the form");
     setErr(""); setStatus("sending");
     const { error } = await supabase.from("enquiries").insert({ ...r.data, phone: r.data.phone || null, subject: r.data.subject || null, source: "contact" });
     if (error) { setStatus("idle"); return setErr("Couldn't send your message — please call or email us."); }

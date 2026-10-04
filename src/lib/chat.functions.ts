@@ -24,7 +24,7 @@ export const askChat = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data }) => {
-    const key = process.env.LOVABLE_API_KEY;
+    const key = process.env['LOVABLE_API_KEY'];
     const fallback = `I'm having trouble right now. Please contact Thè 1971 on ${businessInfo.phone} or ${businessInfo.email}.`;
     if (!key) return { reply: fallback, enquiry: false };
     const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
@@ -57,7 +57,7 @@ export const askChat = createServerFn({ method: "POST" })
     if (unanswered) {
       const last = [...data.messages].reverse().find((m) => m.role === "user");
       if (last) {
-        const sb = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_PUBLISHABLE_KEY!, { auth: { persistSession: false } });
+        const sb = createClient(process.env['SUPABASE_URL']!, process.env['SUPABASE_PUBLISHABLE_KEY']!, { auth: { persistSession: false } });
         await sb.from("unanswered_questions").insert({ question: last.content.slice(0, 1000) });
       }
     }
