@@ -1,3 +1,4 @@
+import { openingHours } from "@/lib/restaurant";
 import type { ReactNode } from "react";
 
 export function PageHero({ eyebrow, title, children, image }: { eyebrow: string; title: string; children?: ReactNode; image?: string }) {
@@ -31,6 +32,15 @@ export function SectionTitle({ eyebrow, title, children, center }: { eyebrow: st
   );
 }
 
-export function OpeningHoursList({ className = "" }: { className?: string }) {
-  return null as unknown as JSX.Element ?? <div className={className} />;
+export function HoursTable() {
+  const today = typeof window === "undefined" ? -1 : new Date().getDay();
+  return (
+    <ul className="divide-y divide-border">
+      {openingHours.map((h, i) => (
+        <li key={h.day} className={`flex justify-between py-3 ${i === today ? "font-semibold text-primary" : ""}`}>
+          <span>{h.day}</span><span>{h.open} – {h.close}</span>
+        </li>
+      ))}
+    </ul>
+  );
 }
